@@ -4,7 +4,7 @@ import numpy as np
 
 from implementations import *
 from proj1_helpers import *
-
+from polynomial import *
 
 def RMSE(Y, Y_pred):
     sum = 0
@@ -39,6 +39,11 @@ if __name__ == '__main__':
     # check how many invalid values are in every column
     # if there are more invalid values than valid, then delete the column
 
+
+    print(input_data.shape)
+    #input_data = input_data[:,range(13,30)]
+    print(input_data.shape)
+
     del_col = []
     del_row = []
     for i in range(0, len(input_data[0])):
@@ -62,6 +67,8 @@ if __name__ == '__main__':
         input_data[:, i][np.isnan(input_data[:, i])] = means[i]
         #input_data2[:, i][np.isnan(input_data2[:, i])] = means[i]
 
+    print(input_data.shape)
+
     input_data, mean, std = standardize(input_data, None, None)
     #input_data2, _, _ = standardize(input_data2, mean, std)
 
@@ -74,6 +81,16 @@ if __name__ == '__main__':
 
     #X_train = standardize(X_train)
     #X_test = standardize(X_test)
+
+    degree = 3
+    basis = build_poly(X_train, degree)
+    basisTest = build_poly(X_test, degree)
+    print(basis.shape)
+    w = least_squares(Y_train, basis)
+    print(w.shape)
+    y_pred = predict_labels(w, basisTest)
+    print("polynomial_basis RMSE: " + str(RMSE(Y_test, y_pred)), ', degree='+str(degree))
+
 
     w = least_squares(Y_train, X_train)
     y_pred = predict_labels(w, X_test)
@@ -121,7 +138,7 @@ if __name__ == '__main__':
     initial_w = np.zeros(len(input_data[0]))
     max_iters = 1000
     w = initial_w
-    
+
     for i in range(max_iters):
         w = reg_logistic_regression2(Y_train, X_train, 0.1, w, 0.001)
         y_pred = predict_labels(w, X_test)
@@ -146,4 +163,3 @@ if __name__ == '__main__':
     #y_pred2 = predict_labels(w, input_data2)
 
     #create_csv_submission(ids2, y_pred2, "submission.csv")
-

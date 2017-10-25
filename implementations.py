@@ -19,15 +19,6 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 
     return w
 
-def least_squares_GD2(y, tx, initial_w, gamma):
-    w = initial_w
-    grad = compute_gradient_LS(y, tx, w)
-    w = w - gamma * grad
-    # print(w)
-
-    #print("Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=n_iter, ti=max_iters - 1, w0=w[0], w1=w[1]))
-
-    return w
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     N = y.shape[0]
@@ -37,7 +28,6 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
         yi = np.array(y[index]).reshape(1,)
         txi = np.array(tx[index]).reshape(1, tx.shape[1])
         grad = compute_gradient_LS(yi, txi, w)
-
         w = w - gamma*grad
 
         #print("Stochastic Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=i, ti=max_iters - 1, w0=w[0], w1=w[1]))
@@ -75,7 +65,6 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         # print(w)
 
         #print("Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=n_iter, ti=max_iters - 1, w0=w[0], w1=w[1]))
-
     return w
 
 def logistic_regression2(y, tx, initial_w, gamma):
@@ -85,26 +74,15 @@ def logistic_regression2(y, tx, initial_w, gamma):
     # print(w)
 
     #print("Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=n_iter, ti=max_iters - 1, w0=w[0], w1=w[1]))
-
     return w
+
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         grad = compute_gradient_logistic(y, tx, w) + 2 * lambda_ * w
         w = w - gamma * grad
-
         # print(w)
 
         # print("Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=n_iter, ti=max_iters - 1, w0=w[0], w1=w[1]))
-    return w
-
-
-def reg_logistic_regression2(y, tx, lambda_, initial_w, gamma):
-    w = initial_w
-    grad = compute_gradient_logistic(y, tx, w) + 2 * lambda_ * w
-    w = w - gamma * grad
-
-
-    # print("Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=n_iter, ti=max_iters - 1, w0=w[0], w1=w[1]))
     return w
