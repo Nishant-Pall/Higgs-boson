@@ -40,37 +40,36 @@ if __name__ == '__main__':
     # if there are more invalid values than valid, then delete the column
 
 
-    print(input_data.shape)
-    #input_data = input_data[:,range(13,30)]
-    print(input_data.shape)
+    input_data = input_data[:, range(0, 13)]
+    #input_data2 = input_data2[:, range(0, 13)]
+
 
     del_col = []
     del_row = []
+    '''
     for i in range(0, len(input_data[0])):
         if np.count_nonzero(input_data[:, i] == -999) > 125000:
             del_col.append(i)
     input_data = np.delete(input_data, del_col, axis=1)
     #input_data2 = np.delete(input_data2, del_col, axis=1)
-
-
+    '''
+    '''
+    
     for i in range(0, len(input_data)):
         if np.count_nonzero(input_data[i] == -999) > 3:
             del_row.append(i)
     input_data = np.delete(input_data, del_row, axis=0)
     yb = np.delete(yb, del_row, axis=0)
-
+    '''
+    '''
     #replace '-999' with NaN and and then replace NaN values with columns mean
     input_data[input_data == -999] = np.nan
-    #input_data2[input_data2 == -999] = np.nan
+    input_data2[input_data2 == -999] = np.nan
     means = np.nanmean(input_data, axis=0)
     for i in range(0, len(input_data[0])):
         input_data[:, i][np.isnan(input_data[:, i])] = means[i]
-        #input_data2[:, i][np.isnan(input_data2[:, i])] = means[i]
-
-    print(input_data.shape)
-
-    input_data, mean, std = standardize(input_data, None, None)
-    #input_data2, _, _ = standardize(input_data2, mean, std)
+        input_data2[:, i][np.isnan(input_data2[:, i])] = means[i]
+    '''
 
     # divide into train i test
     delimiter = int(round(len(input_data) * 0.7))
@@ -79,19 +78,55 @@ if __name__ == '__main__':
     Y_train = yb[0:delimiter]
     Y_test = yb[delimiter:len(input_data)]
 
-    #X_train = standardize(X_train)
-    #X_test = standardize(X_test)
+    '''
+    for i in range(0, len(X_train[0])):
+        if np.count_nonzero(X_train[:, i] == -999) > len(X_train)/2:
+            del_col.append(i)
+    X_train = np.delete(X_train, del_col, axis=1)
+    X_test = np.delete(X_test, del_col, axis=1)
+    '''
+    '''
+    print(X_train.shape)
+    for i in range(0, len(X_train)):
+        if np.count_nonzero(X_train[i] == -999) > 2:
+            del_row.append(i)
+    X_train = np.delete(X_train, del_row, axis=0)
+    Y_train = np.delete(Y_train, del_row, axis=0)
+    print(X_train.shape)
+    '''
 
-    degree = 3
+    X_train[X_train == -999] = np.nan
+    X_test[X_test == -999] = np.nan
+    means = np.nanmean(X_train, axis=0)
+    for i in range(0, len(X_train[0])):
+        X_train[:, i][np.isnan(X_train[:, i])] = means[i]
+        X_test[:, i][np.isnan(X_test[:, i])] = means[i]
+
+
+    X_train, mean, std = standardize(X_train, None, None)
+    X_test, mean, std = standardize(X_test, mean, std)
+    #input_data, mean, std = standardize(input_data, None, None)
+    #input_data2, mean, std = standardize(input_data2, mean, std)
+
+
+    #0.9073918668359332 , lambda: 0.00833630619255
+    # for degree in range(0, 9):
+    degree = 6
     basis = build_poly(X_train, degree)
     basisTest = build_poly(X_test, degree)
-    print(basis.shape)
-    w = least_squares(Y_train, basis)
-    print(w.shape)
+    best_lambda = 0.00833630619255
+    w = ridge_regression(Y_train, basis, best_lambda)
     y_pred = predict_labels(w, basisTest)
     print("polynomial_basis RMSE: " + str(RMSE(Y_test, y_pred)), ', degree='+str(degree))
-
-
+    '''
+    degree = 6
+    basis = build_poly(input_data, degree)
+    basisTest = build_poly(input_data2, degree)
+    w = least_squares(yb, basis)
+    y_pred2 = predict_labels(w, basisTest)
+    create_csv_submission(ids2, y_pred2, "submission.csv")
+    '''
+    '''
     w = least_squares(Y_train, X_train)
     y_pred = predict_labels(w, X_test)
 
@@ -134,7 +169,7 @@ if __name__ == '__main__':
     print("least_squares_SGD RMSE: " + str(RMSE(Y_test, y_pred)))
     #1.0663582887566447
 
-    '''
+    
     initial_w = np.zeros(len(input_data[0]))
     max_iters = 1000
     w = initial_w
@@ -148,7 +183,7 @@ if __name__ == '__main__':
             iter_ = i
     print("reg_logistic_regression RMSE: " + str(rmse_min) + " iter: " + str(iter_))
     #1.0678826402434554
-    '''
+    
     initial_w = np.random.rand(len(input_data[0]))
     max_iters = 1000
     w = initial_w
@@ -163,3 +198,4 @@ if __name__ == '__main__':
     #y_pred2 = predict_labels(w, input_data2)
 
     #create_csv_submission(ids2, y_pred2, "submission.csv")
+    '''
