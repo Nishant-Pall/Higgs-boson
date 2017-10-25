@@ -1,6 +1,7 @@
 import numpy as np
 
 def compute_gradient_LS(y, tx, w):
+    #print(y.shape)
     N = y.shape[0]
     e = y - np.dot(tx, w)
     grad = (-1/N)*np.dot(tx.T, e)
@@ -18,19 +19,30 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 
     return w
 
+def least_squares_GD2(y, tx, initial_w, gamma):
+    w = initial_w
+    grad = compute_gradient_LS(y, tx, w)
+    w = w - gamma * grad
+    # print(w)
+
+    #print("Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=n_iter, ti=max_iters - 1, w0=w[0], w1=w[1]))
+
+    return w
+
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     N = y.shape[0]
     w = initial_w
     for i in range(max_iters):
         index = i%N
-        grad = compute_gradient_LS(y[index], tx[index], w)
+        yi = np.array(y[index]).reshape(1,)
+        txi = np.array(tx[index]).reshape(1, tx.shape[1])
+        grad = compute_gradient_LS(yi, txi, w)
 
         w = w - gamma*grad
 
-        print("Stochastic Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(
-              bi=i, ti=max_iters - 1, w0=w[0], w1=w[1]))
+        #print("Stochastic Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=i, ti=max_iters - 1, w0=w[0], w1=w[1]))
 
-        return w
+    return w
 
 
 def least_squares(y, tx):
@@ -48,6 +60,7 @@ def ridge_regression(y, tx, lambda_):
 
     return w
 
+
 def compute_gradient_logistic(y, tx, w):
     r = 1.0 / (1 + np.exp(-(tx.dot(w))))
     grad = tx.T.dot(r - y)
@@ -62,6 +75,16 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         # print(w)
 
         #print("Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=n_iter, ti=max_iters - 1, w0=w[0], w1=w[1]))
+
+    return w
+
+def logistic_regression2(y, tx, initial_w, gamma):
+    w = initial_w
+    grad = compute_gradient_logistic(y, tx, w)
+    w = w - gamma * grad
+    # print(w)
+
+    #print("Gradient Descent({bi}/{ti}): w0={w0}, w1={w1}".format(bi=n_iter, ti=max_iters - 1, w0=w[0], w1=w[1]))
 
     return w
 
