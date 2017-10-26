@@ -5,6 +5,7 @@ import numpy as np
 from implementations import *
 from proj1_helpers import *
 from polynomial import *
+from newtowns import least_squares_newtown
 
 def RMSE(Y, Y_pred):
     sum = 0
@@ -54,7 +55,7 @@ if __name__ == '__main__':
     #input_data2 = np.delete(input_data2, del_col, axis=1)
     '''
     '''
-    
+
     for i in range(0, len(input_data)):
         if np.count_nonzero(input_data[i] == -999) > 3:
             del_row.append(i)
@@ -108,6 +109,15 @@ if __name__ == '__main__':
     #input_data, mean, std = standardize(input_data, None, None)
     #input_data2, mean, std = standardize(input_data2, mean, std)
 
+    initial_w = np.zeros(len(input_data[0]))
+    max_iters = 1000
+
+
+    """
+    w = least_squares_newtown(Y_train, X_train, initial_w, max_iters)
+    y_pred = predict_labels(w, X_test)
+    print("newtowns RMSE: " + str(RMSE(Y_test, y_pred)))
+    """
 
     #0.9073918668359332 , lambda: 0.00833630619255
     # for degree in range(0, 9):
@@ -169,7 +179,7 @@ if __name__ == '__main__':
     print("least_squares_SGD RMSE: " + str(RMSE(Y_test, y_pred)))
     #1.0663582887566447
 
-    
+
     initial_w = np.zeros(len(input_data[0]))
     max_iters = 1000
     w = initial_w
@@ -183,7 +193,7 @@ if __name__ == '__main__':
             iter_ = i
     print("reg_logistic_regression RMSE: " + str(rmse_min) + " iter: " + str(iter_))
     #1.0678826402434554
-    
+
     initial_w = np.random.rand(len(input_data[0]))
     max_iters = 1000
     w = initial_w
