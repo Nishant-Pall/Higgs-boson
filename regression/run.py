@@ -19,7 +19,7 @@ if __name__ == '__main__':
     y_pred_all = np.array([])
     ids_all = np.array([])
 
-    degrees = [4, 4, 11, 6, 9, 3, 9, 3]
+    degrees = [11, 8, 12, 5, 12, 3, 11, 1]
 
     for train, test, degree in zip(train_sets, test_sets, degrees):
         Y_train = train[:, 1]
@@ -35,7 +35,8 @@ if __name__ == '__main__':
 
         basis = build_poly(X_train, degree)
         basisTest = build_poly(X_test, degree)
-        w, _ = least_squares(Y_train, basis)
+        w, loss = least_squares(Y_train, basis)
+        print(loss)
         y_pred = predict_labels(w, basisTest)
         y_pred_all = np.append(y_pred_all, y_pred)
         ids_all = np.append(ids_all, id_test)
