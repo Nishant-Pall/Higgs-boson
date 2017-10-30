@@ -35,8 +35,6 @@ Following this initial testing with limited results, we decided to focus on proc
 
 Having the goal to also improve our previous simple models and taking into account that we have now deleted quite a few columns, we decided to also test whether a polynomial basis approach would yield a better result. To do this, we tested different degrees for the polynomial basis and indeed noticed the possibility to improve our model in this manner. Our validation RMSE would decrease up until degree 7, following which it would start quickly increasing (likely due to over-fitting), and thus we opted for a polynomial basis of degree 7 at this point. As a result, the accuracy score we managed to obtain on Kaggle by combining data preprocessing with a polynomial basis of degree 7 was 0.78489, our highest thus far.
 
-%  \includegraphics[width=\columnwidth]{polynomial_basis_degrees}
-
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\columnwidth]{polynomial_basis_degrees}
@@ -50,7 +48,14 @@ Following these approaches, we decided to look more closely into the values of e
 
 \section{Final method}
 
-Following this improved data and feature processing, we noticed a significant improvement in our accuracy when evaluating different moedls. Furthermore, we now observed that we get different results for different polynomial basis degrees for each of the training sets. Thus, through the process of cross validation with selection of different degrees, we discovered the optimal degree for the polynomial basis for each of the training sets. Thus, using the preprocessed and cleaned data sets with their respective polynomial basis degrees, we obtained our best results by applying the least squares method with the final accuracy score of 0.82928.
+Following this improved data and feature processing, we noticed a significant improvement in our accuracy when evaluating different moedls. Furthermore, we now observed that we get different results for different polynomial basis degrees for each of the training sets. Thus, through the process of cross validation with selection of different degrees, we discovered the optimal degree for the polynomial basis for each of the training sets. Thus, using the preprocessed and cleaned data sets with their respective polynomial basis degrees, we obtained our best results by applying the least squares method with the final accuracy score of 0.82928. Figure below depicts the validation accuracies of the 8 separate training sets obtained using the method described above.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{train_set_accuracies}
+  \caption{Accuracy of different train sets.}
+  \vspace{-3mm}
+\end{figure}
 
 \section{Summary}
 
