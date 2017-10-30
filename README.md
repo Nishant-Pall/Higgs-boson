@@ -38,6 +38,7 @@ Files connected to regression implementation can be found in the ```./regression
 * ```implementations.py``` - the file contains 6 necessary algorithm implementations for this project as well as appropriate helper functions
 * ```polynomial.py``` - a function used to construct polynomial bases
 * ```run.py``` - a main execution file which performs data parsing and model construction to generate the optimal submission results
+* ```test_run_implementations.py``` - function used to test the implementations using a dummy dataset
 
 ### Neural network
 

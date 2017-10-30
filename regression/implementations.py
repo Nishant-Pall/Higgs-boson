@@ -59,10 +59,11 @@ def ridge_regression(y, tx, lambda_):
 
 
 def sigmoid(z):
+    """compute the sigmoid function"""
     return 1/(1+np.exp(-z))
 
 def calculate_loss_logistic(y, tx, w):
-    """compute the loss by negative log likelihood."""
+    """compute the loss by negative log likelihood, return loss over number of data points for clarity."""
     N = y.shape[0]
     y[y==-1] = 0
     temp = np.dot(tx, w)
@@ -72,6 +73,7 @@ def calculate_loss_logistic(y, tx, w):
 
 def compute_gradient_logistic(y, tx, w):
     """compute the gradient for logistic regression."""
+    y[y==-1] = 0
     grad = tx.T.dot(sigmoid(tx.dot(w)) - y)
     return grad
 
