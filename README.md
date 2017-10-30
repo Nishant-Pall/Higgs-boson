@@ -24,6 +24,10 @@ Following files are required:
 
 Data needs to be placed in the existing ```./data``` subdirectory.
 
+### Results
+
+Running ```run.py``` from the ```./regression``` subdirectory will generate submission file ```submission.csv``` in the ```./data``` subdirectory.
+
 ## Content
 
 ### Data wrangling
