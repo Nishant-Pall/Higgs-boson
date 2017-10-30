@@ -36,7 +36,6 @@ if __name__ == '__main__':
         basis = build_poly(X_train, degree)
         basisTest = build_poly(X_test, degree)
         w, loss = least_squares(Y_train, basis)
-        print(loss)
         y_pred = predict_labels(w, basisTest)
         y_pred_all = np.append(y_pred_all, y_pred)
         ids_all = np.append(ids_all, id_test)
@@ -44,3 +43,5 @@ if __name__ == '__main__':
     y_pred_all = np.c_[ids_all, y_pred_all]
     y_pred_all = y_pred_all[y_pred_all[:, 0].argsort()] #sort predictions by id value
     create_csv_submission(ids2, y_pred_all[:, 1], "../data/submission.csv")
+    print("DONE")
+    print("Submission results can be found in the ./data subdirectory")
