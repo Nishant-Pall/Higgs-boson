@@ -44,6 +44,17 @@ Files connected to regression implementation can be found in the ```./regression
 * ```run.py``` - a main execution file which performs data parsing and model construction to generate the optimal submission results
 * ```test_run_implementations.py``` - function used to test the implementations using a dummy dataset
 
+### Neural network
+
+Files connected to neural network implementation can be found in the ```./neural_network``` subdirectory.
+
+* ```data_loader.py``` - utility functions for working with ```.csv``` files when loading test and validation sets, and storing results
+* ```genetic_algorithm.py``` - implementation of generational genetic algorithm
+* ```network_layers.py``` - abstraction of network layer used by a neural network with several implementations
+* ```neural_net.py``` - a high level object that consists of network layers, and can for a given vector of input instances return the vector of outputs for all the input instances
+* ```runner.py``` - execution file which generates predictions using neural network model
+* ```transfer_functions.py``` - transfer functions that can be used on the neuron's output
+
 ## Code reuse
 
 We encourage you to fork or clone this repository for future development. Issue reporting and pull requests are welcome as well.
